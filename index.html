@@ -1,122 +1,94 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>DJ Player</title>
 <style>
-    body {
-        background: black;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-    }
-    .btn {
-        background: #222;
-        padding: 12px;
-        margin: 6px;
-        border: 2px solid white;
-        border-radius: 6px;
-        cursor: pointer;
-        width: 140px;
-        font-size: 16px;
-    }
-    .btn:hover {
-        background: #444;
-    }
-    .track-controls {
-        margin: 10px auto;
-        width: 90%;
-    }
-    input[type="range"] {
-        width: 100%;
-    }
-    .key {
-        font-size: 12px;
-        color: #00eaff;
-    }
-    .section-title {
-        margin-top: 25px;
-        font-size: 20px;
-        color: yellow;
-    }
+ body { background:black; color:white; font-family:Arial; text-align:center; }
+ .btn { background:#222; padding:12px; margin:6px; border:2px solid white; width:150px; cursor:pointer; border-radius:6px;}
+ .btn:hover { background:#444; }
+ .key { color:#0ff; font-size:12px; }
+ input[type="range"] { width:80%; margin-top:10px; }
 </style>
 </head>
 <body>
 
-<h1>DJ Controller</h1>
+<h1>Neon Audio — DJ Hybrid</h1>
 
-<div class="section-title">Music Tracks</div>
+<!-- MUSIC BUTTONS -->
+<button id="m1" class="btn">🎵 Music 1 <span class="key">1</span></button>
+<button id="m2" class="btn">🎵 Music 2 <span class="key">2</span></button>
+<button id="m3" class="btn">🎵 Music 3 <span class="key">3</span></button>
+<button id="m4" class="btn">🎵 Music 4 <span class="key">4</span></button>
+<button id="m5" class="btn">🎵 Music 5 <span class="key">5</span></button>
 
-<button id="m1" class="btn">🎵 Music 1 <span class="key">(1)</span></button>
-<button id="m2" class="btn">🎵 Music 2 <span class="key">(2)</span></button>
-<button id="m3" class="btn">🎵 Music 3 <span class="key">(3)</span></button>
-<button id="m5" class="btn">🎵 Music 5 <span class="key">(5)</span></button>
+<!-- VOICES -->
+<br><br>
+<button id="v1" class="btn">🎤 Voice 1 <span class="key">Q</span></button>
+<button id="v2" class="btn">🎤 Voice 2 <span class="key">W</span></button>
+<button id="v3" class="btn">🎤 Voice 3 <span class="key">E</span></button>
 
-<div class="section-title">Voices</div>
+<!-- DJ PALE (Voice 4) -->
+<button id="v4" class="btn">🎤 DJ Pale <span class="key">R</span></button>
 
-<button id="v1" class="btn">🎤 Voice 1 <span class="key">(Q)</span></button>
-<button id="v2" class="btn">🎤 Voice 2 <span class="key">(W)</span></button>
-<button id="v3" class="btn">🎤 Voice 3 <span class="key">(E)</span></button>
-<button id="v4" class="btn">🎤 DJ Pale <span class="key">(R)</span></button>
+<br><br>
+<button id="scratch" class="btn">🔥 Scratch (S)</button>
 
-<div class="section-title">Scratch</div>
-<button id="scratch" class="btn">🔥 Scratch</button>
-
-<div class="section-title">Master Volume</div>
-<input id="masterVolume" type="range" min="0" max="1" step="0.01" value="1">
+<br><br>
+<label>Master Volume</label><br>
+<input id="masterVolume" type="range" min="0" max="1" value="1" step="0.01">
 
 <script>
 const FILES = {
-  music1: "cue.mp3",
-  music2: "cue2.mp3",
-  music3: "rony.mp3",
-  music5: "tony.mp3",
-  voice1: "elp.mp3",
-  voice2: "ronald.mp3",
-  voice3: "voice3.mp3",
-  voice4: "djpale.mp3",
-  scratch: "scratch.mp3"
+ music1: "cue.mp3",
+ music2: "cue2.mp3",
+ music3: "rony.mp3",
+ music4: "sony.mp3",
+ music5: "tony.mp3",
+ voice1: "ronald.mp3",
+ voice2: "voice3.mp3",
+ voice3: "djpale.mp3",
+ scratch: "scratch.mp3"
 };
 
 let players = {};
 
-function playSound(id){
-    if(players[id]) {
-        players[id].pause();
-        players[id].currentTime = 0;
-    }
-    players[id] = new Audio(FILES[id]);
-    players[id].volume = document.getElementById("masterVolume").value;
-    players[id].play();
+function play(id){
+ if(players[id]) { players[id].pause(); players[id].currentTime=0; }
+ players[id]=new Audio(FILES[id]);
+ players[id].volume=document.getElementById("masterVolume").value;
+ players[id].play();
 }
 
-document.getElementById("m1").onclick = ()=> playSound("music1");
-document.getElementById("m2").onclick = ()=> playSound("music2");
-document.getElementById("m3").onclick = ()=> playSound("music3");
-document.getElementById("m5").onclick = ()=> playSound("music5");
+// CLICK EVENTS
+document.getElementById("m1").onclick=()=>play("music1");
+document.getElementById("m2").onclick=()=>play("music2");
+document.getElementById("m3").onclick=()=>play("music3");
+document.getElementById("m4").onclick=()=>play("music4");
+document.getElementById("m5").onclick=()=>play("music5");
+document.getElementById("v1").onclick=()=>play("voice1");
+document.getElementById("v2").onclick=()=>play("voice2");
+document.getElementById("v3").onclick=()=>play("voice3");
+document.getElementById("v4").onclick=()=>play("voice3"); // DJ Pale same file
+document.getElementById("scratch").onclick=()=>play("scratch");
 
-document.getElementById("v1").onclick = ()=> playSound("voice1");
-document.getElementById("v2").onclick = ()=> playSound("voice2");
-document.getElementById("v3").onclick = ()=> playSound("voice3");
-document.getElementById("v4").onclick = ()=> playSound("voice4");
-
-document.getElementById("scratch").onclick = ()=> playSound("scratch");
-
-// Keyboard shortcuts
-document.addEventListener("keydown", (event)=>{
-    const k = event.key.toLowerCase();
-
-    if (k === "1") document.getElementById("m1").click();
-    if (k === "2") document.getElementById("m2").click();
-    if (k === "3") document.getElementById("m3").click();
-    if (k === "5") document.getElementById("m5").click();
-
-    if (k === "q") document.getElementById("v1").click();
-    if (k === "w") document.getElementById("v2").click();
-    if (k === "e") document.getElementById("v3").click();
-    if (k === "r") document.getElementById("v4").click();
+// KEYBOARD
+document.addEventListener("keydown", (e)=>{
+ let k=e.key.toLowerCase();
+ if(k==="1") document.getElementById("m1").click();
+ if(k==="2") document.getElementById("m2").click();
+ if(k==="3") document.getElementById("m3").click();
+ if(k==="4") document.getElementById("m4").click();
+ if(k==="5") document.getElementById("m5").click();
+ if(k==="q") document.getElementById("v1").click();
+ if(k==="w") document.getElementById("v2").click();
+ if(k==="e") document.getElementById("v3").click();
+ if(k==="r") document.getElementById("v4").click();
+ if(k==="s") document.getElementById("scratch").click();
 });
 </script>
-
 </body>
 </html>
