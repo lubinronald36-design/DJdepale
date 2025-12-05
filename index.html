@@ -1,219 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<title>DJ — Teacher Ronald</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+<title>Teacher Ronald — DJ Console</title>
 <style>
-    body {
-        background: #05050a;
-        color: #00aaff;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 20px;
-    }
+  body {
+    background: black;
+    color: cyan;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
 
-    h1 {
-        font-size: 46px;
-        text-shadow: 0 0 15px #00aaff, 0 0 25px #0077cc;
-        margin-bottom: 25px;
-        letter-spacing: 3px;
-    }
+  .track {
+    border: 2px solid cyan;
+    padding: 20px;
+    margin: 25px auto;
+    width: 80%;
+    border-radius: 15px;
+  }
 
-    .section-title {
-        margin-top: 40px;
-        font-size: 30px;
-        color: #00d0ff;
-        text-shadow: 0 0 12px #00aaff;
-        border-top: 2px solid #00aaff;
-        border-bottom: 2px solid #00aaff;
-        padding: 10px;
-    }
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    background: cyan;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+  }
 
-    .track {
-        background: #111;
-        border: 1px solid #00aaff;
-        border-radius: 10px;
-        padding: 15px;
-        margin: 20px auto;
-        width: 90%;
-        max-width: 750px;
-        box-shadow: 0 0 15px #003344;
-    }
-
-    button {
-        background: #00aaff;
-        border: none;
-        padding: 10px;
-        margin: 5px;
-        cursor: pointer;
-        font-weight: bold;
-        border-radius: 6px;
-        width: 90px;
-    }
-
-    button:hover { background: #0088cc; }
-
-    input[type="range"] { width: 100%; }
-
-    .master {
-        margin-top: 45px;
-        padding: 20px;
-        border: 2px solid #00aaff;
-        width: 90%;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: 10px;
-        box-shadow: 0 0 15px #003344;
-    }
-
+  input[type=range] {
+    width: 90%;
+  }
 </style>
 </head>
-
 <body>
 
-<h1>★ TEACHER RONALD ★</h1>
-
-<!-- 🔊 MUSIC SECTION -->
-<div class="section-title">🎵 MUSIC</div>
+<h1>🎧 Teacher Ronald — DJ Mixing Board</h1>
 
 <div class="track">
-    <h3>Sony.mp3</h3>
-    <audio id="sony" src="sony.mp3"></audio>
-    <button onclick="togglePlay('sony')">Play/Pause</button>
-    <label><input type="checkbox" onchange="toggleLoop('sony', this)"> Loop</label>
-    <input type="range" id="slider_sony" min="0" max="100" step="1" oninput="seekTrack('sony', this.value)">
+  <h2>Track: GOD Voice</h2>
+
+  <audio id="track1" src="god.mp3" loop></audio>
+
+  <button onclick="playTrack('track1')">▶ Play</button>
+  <button onclick="pauseTrack('track1')">⏸ Pause</button>
+
+  <br><br>
+
+  <input type="range" id="seek1" value="0" min="0" max="100" step="1"
+    oninput="seekTrack('track1','seek1')">
 </div>
 
-<div class="track">
-    <h3>Tony.mp3</h3>
-    <audio id="tony" src="tony.mp3"></audio>
-    <button onclick="togglePlay('tony')">Play/Pause</button>
-    <label><input type="checkbox" onchange="toggleLoop('tony', this)"> Loop</label>
-    <input type="range" id="slider_tony" min="0" max="100" step="1" oninput="seekTrack('tony', this.value)">
-</div>
-
-<div class="track">
-    <h3>Cue.mp3</h3>
-    <audio id="cue" src="cue.mp3"></audio>
-    <button onclick="togglePlay('cue')">Play/Pause</button>
-    <label><input type="checkbox" onchange="toggleLoop('cue', this)"> Loop</label>
-    <input type="range" id="slider_cue" min="0" max="100" step="1" oninput="seekTrack('cue', this.value)">
-</div>
-
-<div class="track">
-    <h3>Cue2.mp3</h3>
-    <audio id="cue2" src="cue2.mp3"></audio>
-    <button onclick="togglePlay('cue2')">Play/Pause</button>
-    <label><input type="checkbox" onchange="toggleLoop('cue2', this)"> Loop</label>
-    <input type="range" id="slider_cue2" min="0" max="100" step="1" oninput="seekTrack('cue2', this.value)">
-</div>
-
-<!-- 🎤 VOCALS SECTION -->
-<div class="section-title">🎤 VOCALS</div>
-
-<div class="track">
-    <h3>Ronald.mp3</h3>
-    <audio id="ronald" src="ronald.mp3"></audio>
-    <button onclick="togglePlay('ronald')">Play/Pause</button>
-    <label><input type="checkbox" onchange="toggleLoop('ronald', this)"> Loop</label>
-    <input type="range" id="slider_ronald" min="0" max="100" step="1" oninput="seekTrack('ronald', this.value)">
-</div>
-
-<div class="track">
-    <h3>Djpale.mp3</h3>
-    <audio id="djpale" src="djpale.mp3"></audio>
-    <button onclick="togglePlay('djpale')">Play/Pause</button>
-    <label><input type="checkbox" onchange="toggleLoop('djpale', this)"> Loop</label>
-    <input type="range" id="slider_djpale" min="0" max="100" step="1" oninput="seekTrack('djpale', this.value)">
-</div>
-
-<div class="track">
-    <h3>Rony.mp3</h3>
-    <audio id="rony" src="rony.mp3"></audio>
-    <button onclick="togglePlay('rony')">Play/Pause</button>
-    <label><input type="checkbox" onchange="toggleLoop('rony', this)"> Loop</label>
-    <input type="range" id="slider_rony" min="0" max="100" step="1" oninput="seekTrack('rony', this.value)">
-</div>
-
-<div class="track">
-    <h3>Voice3.mp3</h3>
-    <audio id="voice3" src="voice3.mp3"></audio>
-    <button onclick="togglePlay('voice3')">Play/Pause</button>
-    <label><input type="checkbox" onchange="toggleLoop('voice3', this)"> Loop</label>
-    <input type="range" id="slider_voice3" min="0" max="100" step="1" oninput="seekTrack('voice3', this.value)">
-</div>
-
-<!-- 🔥 EFFECT -->
-<div class="section-title">🔥 EFFECT</div>
-
-<div class="track">
-    <h3>Scratch.mp3</h3>
-    <audio id="scratch" src="scratch.mp3"></audio>
-    <button onclick="playOnce('scratch')">Scratch</button>
-</div>
-
-<!-- MASTER VOLUME -->
-<div class="master">
-    <h2>🎚 MASTER VOLUME</h2>
-    <input type="range" id="masterVol" min="0" max="1" step="0.01" value="1" oninput="updateVolume()">
-</div>
 
 <script>
-let trackList = ["sony","tony","cue","cue2","ronald","djpale","rony","voice3","scratch"];
-
-function togglePlay(id){
-    let a = document.getElementById(id);
-    a.paused ? a.play() : a.pause();
+function playTrack(id) {
+  const audio = document.getElementById(id);
+  audio.play();
 }
 
-function playOnce(id){
-    let a = document.getElementById(id);
-    a.currentTime = 0;
-    a.play();
+function pauseTrack(id) {
+  const audio = document.getElementById(id);
+  audio.pause();
 }
 
-function toggleLoop(id, checkbox){
-    document.getElementById(id).loop = checkbox.checked;
+function seekTrack(audioID, sliderID) {
+  const audio = document.getElementById(audioID);
+  const slider = document.getElementById(sliderID);
+  audio.currentTime = (slider.value / 100) * audio.duration;
 }
 
-function seekTrack(id, value){
-    let a = document.getElementById(id);
-    a.currentTime = (value/100) * a.duration;
-}
+// AUTO UPDATE SLIDER
+setInterval(() => {
+  const audio = document.getElementById("track1");
+  const slider = document.getElementById("seek1");
+  if (!isNaN(audio.duration)) {
+    slider.value = (audio.currentTime / audio.duration) * 100;
+  }
+}, 200);
 
-function updateVolume(){
-    let vol = document.getElementById("masterVol").value;
-    trackList.forEach(t => document.getElementById(t).volume = vol);
-}
-
-setInterval(()=>{
-    trackList.forEach(id=>{
-        let a=document.getElementById(id);
-        if(a.duration){
-            document.getElementById("slider_"+id)?.value=(a.currentTime/a.duration)*100;
-        }
-    });
-},300);
-
-// KEYBOARD SHORTCUTS
-document.addEventListener("keydown", (e)=>{
-    let key=e.key.toLowerCase();
-
-    const map={
-        "1":"sony","2":"tony","3":"cue","4":"cue2",
-        "q":"ronald","w":"djpale","e":"rony","r":"voice3"
-    };
-
-    if(map[key]) togglePlay(map[key]);
-    if(key==="s") playOnce("scratch");
-    if(key===" ") trackList.forEach(id=>document.getElementById(id).pause());
-    
-    if(key==="arrowup") masterVol.value = Math.min(1, Number(masterVol.value)+0.05), updateVolume();
-    if(key==="arrowdown") masterVol.value = Math.max(0, Number(masterVol.value)-0.05), updateVolume();
-});
 </script>
 
 </body>
