@@ -1,157 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Neon Audio — DJ Hybrid</title>
+<meta charset="UTF-8">
+<title>DJ Player</title>
 <style>
-  :root{
-    --bg:#05050a;
-    --panel:#0c0c10;
-    --neon1:#00ffcc;
-    --neon2:#9b4cff;
-    --voice-glow:#6af0d6;
-    --btn-radius:12px;
-  }
-  html,body{height:100%;margin:0;background:linear-gradient(180deg,#04040a 0%,#0b0b11 100%);font-family:Inter,Arial,Helvetica,sans-serif;color:#e6f7ff}
-  .wrap{max-width:980px;margin:14px auto;padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 40px rgba(0,0,0,0.6);}
-  h1{margin:6px 0 8px;font-size:20px;text-align:center;letter-spacing:1.5px}
-  .subtitle{font-size:12px;opacity:.78;margin-bottom:12px;text-align:center}
-  .pad{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
-  .pad .btn{padding:14px;border-radius:10px;font-weight:800;font-size:14px;text-align:center}
-  .pad .btn .key{display:block;font-size:12px;opacity:.78;margin-top:6px}
-  .track-row{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:10px;border-radius:10px}
-  .track-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-  .track-controls{display:flex;gap:8px;align-items:center;margin-top:8px}
-  input[type=range]{width:100%}
-  .time{min-width:78px;text-align:right;font-size:12px;opacity:.85}
-  .voice-row{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
-  .voice-row .btn{flex:1 1 22%}
-  .controls-bottom{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap}
-  .master{flex:1 1 360px}
-  .scratch-wrap{flex:1 1 160px;text-align:center}
-  .eq{display:flex;gap:6px;align-items:end;justify-content:flex-start;margin-top:12px}
-  .bar{width:8px;height:12px;background:rgba(255,255,255,0.06);border-radius:4px;transition:height .08s linear, background .08s}
-  .bar.active{ background:linear-gradient(180deg,var(--neon1),#8b3cff); }
-  canvas#wave{width:100%;height:84px;border-radius:8px;display:block;margin-top:12px}
-  .status{font-size:12px;opacity:.85;margin-top:8px}
-  .hint{font-size:12px;opacity:0.72;margin-top:6px}
-  @media (max-width:920px){ .pad,.track-grid{grid-template-columns:repeat(2,1fr)} .voice-row .btn{flex:1 1 45%} }
-  @media (max-width:520px){ .pad,.track-grid{grid-template-columns:repeat(1,1fr)} .master{flex-basis:100%} .scratch-wrap{flex-basis:100%} }
+    body {
+        background: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    .btn {
+        background: #222;
+        padding: 12px;
+        margin: 6px;
+        border: 2px solid white;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 140px;
+        font-size: 16px;
+    }
+    .btn:hover {
+        background: #444;
+    }
+    .track-controls {
+        margin: 10px auto;
+        width: 90%;
+    }
+    input[type="range"] {
+        width: 100%;
+    }
+    .key {
+        font-size: 12px;
+        color: #00eaff;
+    }
+    .section-title {
+        margin-top: 25px;
+        font-size: 20px;
+        color: yellow;
+    }
 </style>
 </head>
 <body>
-  <div class="wrap" id="panel">
-    <h1>Neon Audio — DJ Hybrid</h1>
-    <div class="subtitle">Pad row (quick trigger) · Sliders under each pad · Keys: 1–5 = Music · Q/W/E/R = Voices · S = Scratch · SPACE = STOP ALL</div>
 
-    <!-- PAD (quick trigger) -->
-    <div class="pad" id="pad">
-      <button id="m1" class="btn neon music">🎵 Music 1 <span class="key">Key 1</span></button>
-      <button id="m2" class="btn neon music">🎵 Music 2 <span class="key">Key 2</span></button>
-      <button id="m3" class="btn neon music">🎵 Music 3 <span class="key">Key 3</span></button>
-      <button id="m4" class="btn neon music">🎵 Music 4 <span class="key">Key 4</span></button>
+<h1>DJ Controller</h1>
 
-      <button id="m5" class="btn neon music">🎵 Music 5 <span class="key">Key 5</span></button>
-      <button id="v1" class="btn neon voice">🎤 Voice 1 <span class="key">Key Q</span></button>
-      <button id="v2" class="btn neon voice">🎤 Voice 2 <span class="key">Key W</span></button>
-      <button id="v3" class="btn neon voice">🎤 Voice 3 <span class="key">Key E</span></button>
-    </div>
+<div class="section-title">Music Tracks</div>
 
-    <!-- Track sliders grid (seek + time displays) -->
-    <div class="track-row">
-      <div class="track-grid">
-        <!-- track 1 -->
-        <div>
-          <div style="font-size:13px;margin-bottom:6px">Music 1</div>
-          <div class="track-controls">
-            <input id="pos_m1" type="range" min="0" max="0" value="0" step="0.01">
-            <div class="time"><span id="t_m1">0:00</span>/<span id="d_m1">0:00</span></div>
-          </div>
-        </div>
-        <!-- track 2 -->
-        <div>
-          <div style="font-size:13px;margin-bottom:6px">Music 2</div>
-          <div class="track-controls">
-            <input id="pos_m2" type="range" min="0" max="0" value="0" step="0.01">
-            <div class="time"><span id="t_m2">0:00</span>/<span id="d_m2">0:00</span></div>
-          </div>
-        </div>
-        <!-- track 3 -->
-        <div>
-          <div style="font-size:13px;margin-bottom:6px">Music 3</div>
-          <div class="track-controls">
-            <input id="pos_m3" type="range" min="0" max="0" value="0" step="0.01">
-            <div class="time"><span id="t_m3">0:00</span>/<span id="d_m3">0:00</span></div>
-          </div>
-        </div>
-        <!-- track 4 -->
-        <div>
-          <div style="font-size:13px;margin-bottom:6px">Music 4</div>
-          <div class="track-controls">
-            <input id="pos_m4" type="range" min="0" max="0" value="0" step="0.01">
-            <div class="time"><span id="t_m4">0:00</span>/<span id="d_m4">0:00</span></div>
-          </div>
-        </div>
-        <!-- track 5 -->
-        <div>
-          <div style="font-size:13px;margin-bottom:6px">Music 5</div>
-          <div class="track-controls">
-            <input id="pos_m5" type="range" min="0" max="0" value="0" step="0.01">
-            <div class="time"><span id="t_m5">0:00</span>/<span id="d_m5">0:00</span></div>
-          </div>
-        </div>
+<button id="m1" class="btn">🎵 Music 1 <span class="key">(1)</span></button>
+<button id="m2" class="btn">🎵 Music 2 <span class="key">(2)</span></button>
+<button id="m3" class="btn">🎵 Music 3 <span class="key">(3)</span></button>
+<button id="m5" class="btn">🎵 Music 5 <span class="key">(5)</span></button>
 
-        <!-- empty slots to align -->
-        <div></div><div></div><div></div>
-      </div>
-    </div>
+<div class="section-title">Voices</div>
 
-    <!-- voice pad extra -->
-    <div class="voice-row" style="margin-top:10px">
-      <button id="v4" class="btn neon voice" style="flex:1 1 22%">🎤 Voice 4 (DJ Pale) <span class="key">Key R</span></button>
-      <button id="stopAll" class="btn neon stop" style="flex:1 1 22%">■ STOP ALL <span class="key">Key SPACE</span></button>
-    </div>
+<button id="v1" class="btn">🎤 Voice 1 <span class="key">(Q)</span></button>
+<button id="v2" class="btn">🎤 Voice 2 <span class="key">(W)</span></button>
+<button id="v3" class="btn">🎤 Voice 3 <span class="key">(E)</span></button>
+<button id="v4" class="btn">🎤 DJ Pale <span class="key">(R)</span></button>
 
-    <!-- bottom controls -->
-    <div class="controls-bottom">
-      <div class="master">
-        <div style="font-size:13px;margin-bottom:6px">Master Volume</div>
-        <input id="master" type="range" min="0" max="100" value="100">
-      </div>
-      <div class="scratch-wrap">
-        <button id="scratchBtn" class="btn neon stop">🎧 Scratch <span class="key">Key S</span></button>
-      </div>
-    </div>
+<div class="section-title">Scratch</div>
+<button id="scratch" class="btn">🔥 Scratch</button>
 
-    <div class="eq" id="eq" aria-hidden="true">
-      <div class="bar" id="b1"></div>
-      <div class="bar" id="b2"></div>
-      <div class="bar" id="b3"></div>
-      <div class="bar" id="b4"></div>
-      <div class="bar" id="b5"></div>
-    </div>
-
-    <canvas id="wave"></canvas>
-
-    <div class="status" id="status">Status: Ready</div>
-    <div class="hint">Tip: Tap pads to play. Drag a slider to scrub. Press S for scratch, space to stop all.</div>
-  </div>
+<div class="section-title">Master Volume</div>
+<input id="masterVolume" type="range" min="0" max="1" step="0.01" value="1">
 
 <script>
-/* ===== Settings ===== */
-const DUCK_VOLUME = 0.20;
-const NORMAL_VOLUME = 1.0;
-const FADE_STEP = 0.08;
-const FADE_INTERVAL = 40;
-const UPDATE_INTERVAL = 150;
-
-/* ===== Files (must exist next to index.html) ===== */
 const FILES = {
   music1: "cue.mp3",
   music2: "cue2.mp3",
   music3: "rony.mp3",
-  music4: "Sony.mp3",
   music5: "tony.mp3",
   voice1: "elp.mp3",
   voice2: "ronald.mp3",
@@ -160,308 +78,45 @@ const FILES = {
   scratch: "scratch.mp3"
 };
 
-/* ===== Audio elements ===== */
-const mus1 = new Audio(FILES.music1);
-const mus2 = new Audio(FILES.music2);
-const mus3 = new Audio(FILES.music3);
-const mus4 = new Audio(FILES.music4);
-const mus5 = new Audio(FILES.music5);
-const v1 = new Audio(FILES.voice1);
-const v2 = new Audio(FILES.voice2);
-const v3 = new Audio(FILES.voice3);
-const v4 = new Audio(FILES.voice4);
+let players = {};
 
-[mus1,mus2,mus3,mus4,mus5].forEach(p => { p.loop=false; p.preload="auto"; p._base=1.0; p.crossOrigin="anonymous"; });
-[v1,v2,v3,v4].forEach(p => { p.loop=false; p.preload="auto"; p._base=1.0; p.crossOrigin="anonymous"; });
-
-const musicMap = { m1: mus1, m2: mus2, m3: mus3, m4: mus4, m5: mus5 };
-const voiceMap = { v1: v1, v2: v2, v3: v3, v4: v4 };
-
-/* seeking flags */
-const seeking = { m1:false, m2:false, m3:false, m4:false, m5:false };
-
-/* UI refs */
-const statusEl = document.getElementById("status");
-const eqBars = [...document.querySelectorAll(".bar")];
-const masterEl = document.getElementById("master");
-function setStatus(t){ statusEl.textContent = "Status: " + t; animateEQ(); }
-
-/* ===== EQ animation ===== */
-function animateEQ(){
-  const any = Object.values(musicMap).some(p => !p.paused) || Object.values(voiceMap).some(p => !p.paused);
-  if (any) eqBars.forEach(b => { b.classList.add("active"); b.style.height=(12+Math.floor(Math.random()*60))+"px"; });
-  else eqBars.forEach((b,i)=>{ b.classList.remove("active"); b.style.height=(12+i*3)+"px"; });
-}
-
-/* ===== WebAudio nodes (visualizer + master gain) ===== */
-let audioCtx=null, analyser=null, masterGain=null, trackNodes={};
-function ensureAudioNodes(){
-  if (!audioCtx){
-    audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 1.0;
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 2048;
-    analyser.smoothingTimeConstant = 0.3;
-    masterGain.connect(analyser);
-    analyser.connect(audioCtx.destination);
-  }
-  Object.entries({...musicMap,...voiceMap}).forEach(([id,el])=>{
-    if (!trackNodes[id]){
-      try{
-        const src = audioCtx.createMediaElementSource(el);
-        const g = audioCtx.createGain();
-        g.gain.value = el._base ?? 1.0;
-        src.connect(g);
-        g.connect(masterGain);
-        trackNodes[id] = { src, gainNode: g, el };
-      }catch(e){
-        console.warn("media source failed", id, e);
-      }
+function playSound(id){
+    if(players[id]) {
+        players[id].pause();
+        players[id].currentTime = 0;
     }
-  });
+    players[id] = new Audio(FILES[id]);
+    players[id].volume = document.getElementById("masterVolume").value;
+    players[id].play();
 }
 
-/* Master volume handling */
-let masterVol=1.0;
-function applyMaster(){
-  if (masterGain && audioCtx) masterGain.gain.setValueAtTime(masterVol, audioCtx.currentTime || 0);
-  Object.values(musicMap).forEach(p => p.volume = Math.max(0,Math.min(1,(p._cur ?? p._base)*masterVol)));
-  Object.values(voiceMap).forEach(p => p.volume = Math.max(0,Math.min(1,p._base*masterVol)));
-}
+document.getElementById("m1").onclick = ()=> playSound("music1");
+document.getElementById("m2").onclick = ()=> playSound("music2");
+document.getElementById("m3").onclick = ()=> playSound("music3");
+document.getElementById("m5").onclick = ()=> playSound("music5");
 
-/* ===== Ducking / fading ===== */
-let fadeHandle=null;
-function fadeMusicTo(target, cb){
-  clearInterval(fadeHandle);
-  fadeHandle = setInterval(()=>{
-    let allDone=true;
-    Object.values(musicMap).forEach(p=>{
-      if (p._cur===undefined) p._cur = p._base;
-      if (Math.abs(p._cur - target) > FADE_STEP){ p._cur = Math.max(0,Math.min(1,p._cur + (p._cur < target ? FADE_STEP : -FADE_STEP))); allDone=false; }
-      else p._cur = target;
-      const id = Object.keys(musicMap).find(k => musicMap[k]===p);
-      if (trackNodes[id] && trackNodes[id].gainNode){
-        try{ trackNodes[id].gainNode.gain.setValueAtTime(p._cur*masterVol, audioCtx.currentTime || 0); } catch(e){}
-      } else p.volume = Math.max(0,Math.min(1,p._cur*masterVol));
-    });
-    if (allDone){ clearInterval(fadeHandle); fadeHandle=null; if (cb) cb(); }
-  }, FADE_INTERVAL);
-}
+document.getElementById("v1").onclick = ()=> playSound("voice1");
+document.getElementById("v2").onclick = ()=> playSound("voice2");
+document.getElementById("v3").onclick = ()=> playSound("voice3");
+document.getElementById("v4").onclick = ()=> playSound("voice4");
 
-/* voice exclusivity */
-let activeVoiceCount=0;
-function stopOtherVoices(exceptId){
-  Object.keys(voiceMap).forEach(id=>{
-    if (id!==exceptId){
-      const p = voiceMap[id];
-      if (!p.paused){ p.pause(); p.currentTime=0; document.getElementById(id).classList.remove("playing"); if(activeVoiceCount>0) activeVoiceCount--; }
-    }
-  });
-  if (activeVoiceCount<=0){ activeVoiceCount=0; fadeMusicTo(1.0); }
-}
-function voiceStarted(){ activeVoiceCount = Math.max(0,activeVoiceCount)+1; if (activeVoiceCount===1) fadeMusicTo(DUCK_VOLUME); }
-function voiceStopped(){ activeVoiceCount = Math.max(0,activeVoiceCount-1); if (activeVoiceCount<=0){ activeVoiceCount=0; fadeMusicTo(1.0); } }
+document.getElementById("scratch").onclick = ()=> playSound("scratch");
 
-/* ===== Toggle logic (pads act as play/pause) ===== */
-function toggle(buttonId, player, isVoice=false){
-  const btn = document.getElementById(buttonId);
-  try{ ensureAudioNodes(); }catch(e){ console.warn(e); }
-  if (player.paused){
-    if (isVoice){
-      stopOtherVoices(buttonId);
-      player.currentTime = 0;
-      player.play().catch(()=> setStatus("Playback blocked — tap screen"));
-      btn.classList.add("playing");
-      voiceStarted();
-      player.onended = () => { btn.classList.remove("playing"); voiceStopped(); setStatus(buttonId + " ended"); };
-      setStatus(buttonId + " playing");
-    } else {
-      // music resume where it was
-      if (player._cur===undefined) player._cur=player._base;
-      player.play().catch(()=> setStatus("Playback blocked — tap screen"));
-      btn.classList.add("playing");
-      player.onended = () => { btn.classList.remove("playing"); setStatus(buttonId + " ended"); };
-      setStatus(buttonId + " playing");
-    }
-  } else {
-    player.pause();
-    btn.classList.remove("playing");
-    setStatus(buttonId + " paused");
-    if (isVoice) voiceStopped();
-  }
+// Keyboard shortcuts
+document.addEventListener("keydown", (event)=>{
+    const k = event.key.toLowerCase();
 
-  // sync gain nodes
-  const idMap = {...musicMap, ...voiceMap};
-  Object.keys(idMap).forEach(id=>{
-    const el = idMap[id];
-    if (trackNodes[id] && trackNodes[id].gainNode){
-      const vol = (el._cur!==undefined ? el._cur : el.volume) * masterVol;
-      try{ trackNodes[id].gainNode.gain.setValueAtTime(vol, audioCtx.currentTime || 0); }catch(e){}
-    }
-  });
+    if (k === "1") document.getElementById("m1").click();
+    if (k === "2") document.getElementById("m2").click();
+    if (k === "3") document.getElementById("m3").click();
+    if (k === "5") document.getElementById("m5").click();
 
-  animateEQ();
-}
-
-/* ===== Stop all ===== */
-function stopAll(){
-  Object.keys(musicMap).forEach(id => { const p = musicMap[id]; p.pause(); p.currentTime=0; document.getElementById(id).classList.remove("playing"); p._cur = p._base; });
-  Object.keys(voiceMap).forEach(id => { const p = voiceMap[id]; p.pause(); p.currentTime=0; document.getElementById(id).classList.remove("playing"); });
-  activeVoiceCount=0;
-  fadeMusicTo(1.0);
-  setStatus("All stopped");
-  animateEQ();
-}
-
-/* ===== Wire pad/buttons ===== */
-["m1","m2","m3","m4","m5"].forEach(id => document.getElementById(id).addEventListener("click", () => toggle(id, musicMap[id], false)));
-["v1","v2","v3","v4"].forEach(id => document.getElementById(id).addEventListener("click", () => toggle(id, voiceMap[id], true)));
-document.getElementById("stopAll").addEventListener("click", stopAll);
-
-/* master control */
-masterEl.addEventListener("input", (e) => { masterVol = Number(e.target.value)/100; applyMaster(); setStatus("Master: " + Math.round(masterVol*100) + "%"); });
-applyMaster(); animateEQ();
-
-/* ===== Position sliders and displays ===== */
-function formatTime(s){
-  if (!isFinite(s) || s <= 0) return "0:00";
-  const sec = Math.floor(s % 60).toString().padStart(2,'0');
-  const min = Math.floor(s/60);
-  return min + ":" + sec;
-}
-const tracks = ["m1","m2","m3","m4","m5"];
-tracks.forEach(id=>{
-  const player = musicMap[id];
-  const pos = document.getElementById("pos_" + id);
-  const tcur = document.getElementById("t_" + id);
-  const tdur = document.getElementById("d_" + id);
-
-  player.addEventListener('loadedmetadata', ()=>{
-    const dur = isFinite(player.duration) ? player.duration : 0;
-    pos.max = dur;
-    pos.step = Math.max(0.01, dur/1000);
-    if (tdur) tdur.textContent = formatTime(dur);
-  });
-
-  setInterval(()=>{
-    if (!seeking[id]){
-      if (!isNaN(player.duration) && player.duration > 0){
-        pos.max = player.duration;
-        pos.value = player.currentTime;
-        if (tcur) tcur.textContent = formatTime(player.currentTime);
-        if (tdur) tdur.textContent = formatTime(player.duration);
-      }
-    }
-  }, UPDATE_INTERVAL);
-
-  pos.addEventListener('input', (e)=>{ seeking[id]=true; if (tcur) tcur.textContent = formatTime(Number(e.target.value)); });
-  pos.addEventListener('change', (e)=>{
-    const v = Number(e.target.value);
-    const wasPlaying = !player.paused;
-    player.currentTime = Math.min(v, player.duration || v);
-    seeking[id]=false;
-    if (wasPlaying) player.play().catch(()=> setStatus("Playback blocked — tap screen"));
-  });
-  pos.addEventListener('mouseup', ()=>{ seeking[id]=false; });
-  pos.addEventListener('touchend', ()=>{ seeking[id]=false; });
+    if (k === "q") document.getElementById("v1").click();
+    if (k === "w") document.getElementById("v2").click();
+    if (k === "e") document.getElementById("v3").click();
+    if (k === "r") document.getElementById("v4").click();
 });
-
-/* ===== Keyboard shortcuts ===== */
-window.addEventListener("keydown", (ev)=>{
-  const k = ev.key.toLowerCase();
-  if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") return;
-  if (k === "1") document.getElementById("m1").click();
-  if (k === "2") document.getElementById("m2").click();
-  if (k === "3") document.getElementById("m3").click();
-  if (k === "4") document.getElementById("m4").click();
-  if (k === "5") document.getElementById("m5").click();
-  if (k === "q") document.getElementById("v1").click();
-  if (k === "w") document.getElementById("v2").click();
-  if (k === "e") document.getElementById("v3").click();
-  if (k === "r") document.getElementById("v4").click();
-  if (k === "s") document.getElementById("scratchBtn").click();
-  if (k === " ") { ev.preventDefault(); stopAll(); }
-});
-
-/* safety unload */
-window.addEventListener("beforeunload", ()=>{ try{ stopAll(); }catch(e){} });
-
-/* ===== Scratch button ===== */
-document.getElementById("scratchBtn").addEventListener("click", ()=>{
-  try{ ensureAudioNodes(); }catch(e){}
-  const s = new Audio(FILES.scratch);
-  s.preload="auto";
-  s.play().catch(()=> setStatus("Scratch blocked — tap screen"));
-});
-
-/* ===== Visualizer (canvas) ===== */
-const canvas = document.getElementById('wave');
-const ctx = canvas.getContext('2d');
-
-function resizeCanvas(){
-  canvas.width = canvas.clientWidth * devicePixelRatio;
-  canvas.height = canvas.clientHeight * devicePixelRatio;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-let drawReq=null;
-function drawWave(){
-  if (!analyser){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    drawReq = requestAnimationFrame(drawWave);
-    return;
-  }
-  const bufferLength = analyser.fftSize;
-  const data = new Uint8Array(bufferLength);
-  analyser.getByteTimeDomainData(data);
-
-  const w = canvas.width, h = canvas.height;
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = "rgba(4,4,10,0.22)";
-  ctx.fillRect(0,0,w,h);
-
-  const grad = ctx.createLinearGradient(0,0,w,0);
-  grad.addColorStop(0, "rgba(0,255,204,0.95)");
-  grad.addColorStop(0.5, "rgba(155,76,255,0.95)");
-  grad.addColorStop(1, "rgba(255,100,200,0.9)");
-
-  ctx.lineWidth = 2 * devicePixelRatio;
-  ctx.strokeStyle = grad;
-  ctx.beginPath();
-
-  const sliceWidth = w / bufferLength;
-  let x = 0;
-  for(let i = 0; i < bufferLength; i++){
-    const v = data[i] / 128.0;
-    const y = (v * 0.5) * h;
-    const yPos = (h / 2) + (y - h/2)*0.9;
-    if (i === 0) ctx.moveTo(x, yPos);
-    else ctx.lineTo(x, yPos);
-    x += sliceWidth;
-  }
-  ctx.stroke();
-  ctx.lineWidth = 6 * devicePixelRatio;
-  ctx.globalAlpha = 0.12;
-  ctx.strokeStyle = grad;
-  ctx.stroke();
-  ctx.globalAlpha = 1.0;
-
-  drawReq = requestAnimationFrame(drawWave);
-}
-function startVisualizerIfNeeded(){ if (!audioCtx) return; if (!drawReq) drawWave(); }
-(function hookPlayForVisualizer(){
-  Object.values({...musicMap,...voiceMap}).forEach(el=>{
-    el.addEventListener('play', ()=>{
-      try{ ensureAudioNodes(); }catch(e){}
-      startVisualizerIfNeeded();
-    });
-  });
-})();
-
-/* initial */
-setStatus("Ready");
 </script>
+
 </body>
 </html>
