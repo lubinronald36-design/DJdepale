@@ -1,83 +1,307 @@
-<!DOCTYPE html>
-<html>
+
+<!doctype html>
+<html lang="en">
 <head>
-<title>Teacher Ronald — DJ Console</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DJ — Teacher Ronald (FIXED)</title>
 <style>
-  body {
-    background: black;
-    color: cyan;
-    font-family: Arial, sans-serif;
-    text-align: center;
-  }
-
-  .track {
-    border: 2px solid cyan;
-    padding: 20px;
-    margin: 25px auto;
-    width: 80%;
-    border-radius: 15px;
-  }
-
-  button {
-    margin: 10px;
-    padding: 10px 20px;
-    background: cyan;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-  }
-
-  input[type=range] {
-    width: 90%;
-  }
+  :root{--neon:#00aaff;--bg:#05050a}
+  body{background:var(--bg);color:var(--neon);font-family:Arial,Helvetica,sans-serif;margin:18px;text-align:center}
+  h1{font-size:40px;text-shadow:0 0 12px var(--neon);margin-bottom:8px}
+  .section-title{margin-top:28px;font-size:22px;padding:8px;border-top:2px solid rgba(0,170,255,0.12);border-bottom:2px solid rgba(0,170,255,0.12)}
+  .track{background:#0f0f12;border:1px solid rgba(0,170,255,0.12);padding:12px;border-radius:10px;margin:14px auto;max-width:800px;text-align:left;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+  .track h3{color:white;margin:4px 0 8px 0}
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  button{background:var(--neon);color:#001;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;font-weight:700}
+  input[type="range"]{width:100%}
+  label{color:#cfefff}
+  .master{margin-top:26px;padding:12px;border:1px solid rgba(0,170,255,0.12);max-width:720px;margin-left:auto;margin-right:auto;border-radius:10px}
+  .small{font-size:13px;color:#9fdcff}
 </style>
 </head>
 <body>
+  <h1>★ TEACHER RONALD ★</h1>
 
-<h1>🎧 Teacher Ronald — DJ Mixing Board</h1>
+  <div class="section-title">🎵 MUSIC</div>
 
-<div class="track">
-  <h2>Track: GOD Voice</h2>
+  <div class="track" id="t_sony">
+    <h3>Sony.mp3</h3>
+    <audio id="sony" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="sony" class="btn-play">Play</button>
+      <label><input type="checkbox" data-id="sony" class="loop" checked> Loop</label>
+    </div>
+    <input type="range" id="slider_sony" min="0" max="100" step="0.1" value="0">
+    <div class="small">Key: 1</div>
+  </div>
 
-  <audio id="track1" src="god.mp3" loop></audio>
+  <div class="track" id="t_tony">
+    <h3>Tony.mp3</h3>
+    <audio id="tony" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="tony" class="btn-play">Play</button>
+      <label><input type="checkbox" data-id="tony" class="loop" checked> Loop</label>
+    </div>
+    <input type="range" id="slider_tony" min="0" max="100" step="0.1" value="0">
+    <div class="small">Key: 2</div>
+  </div>
 
-  <button onclick="playTrack('track1')">▶ Play</button>
-  <button onclick="pauseTrack('track1')">⏸ Pause</button>
+  <div class="track" id="t_cue">
+    <h3>Cue.mp3</h3>
+    <audio id="cue" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="cue" class="btn-play">Play</button>
+      <label><input type="checkbox" data-id="cue" class="loop" checked> Loop</label>
+    </div>
+    <input type="range" id="slider_cue" min="0" max="100" step="0.1" value="0">
+    <div class="small">Key: 3</div>
+  </div>
 
-  <br><br>
+  <div class="track" id="t_cue2">
+    <h3>Cue2.mp3</h3>
+    <audio id="cue2" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="cue2" class="btn-play">Play</button>
+      <label><input type="checkbox" data-id="cue2" class="loop" checked> Loop</label>
+    </div>
+    <input type="range" id="slider_cue2" min="0" max="100" step="0.1" value="0">
+    <div class="small">Key: 4</div>
+  </div>
 
-  <input type="range" id="seek1" value="0" min="0" max="100" step="1"
-    oninput="seekTrack('track1','seek1')">
-</div>
+  <div class="section-title">🎤 VOCALS</div>
 
+  <div class="track" id="t_ronald">
+    <h3>Ronald.mp3</h3>
+    <audio id="ronald" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="ronald" class="btn-play">Play</button>
+      <label><input type="checkbox" data-id="ronald" class="loop" checked> Loop</label>
+    </div>
+    <input type="range" id="slider_ronald" min="0" max="100" step="0.1" value="0">
+    <div class="small">Key: Q</div>
+  </div>
+
+  <div class="track" id="t_djpale">
+    <h3>Djpale.mp3</h3>
+    <audio id="djpale" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="djpale" class="btn-play">Play</button>
+      <label><input type="checkbox" data-id="djpale" class="loop" checked> Loop</label>
+    </div>
+    <input type="range" id="slider_djpale" min="0" max="100" step="0.1" value="0">
+    <div class="small">Key: W</div>
+  </div>
+
+  <div class="track" id="t_rony">
+    <h3>Rony.mp3</h3>
+    <audio id="rony" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="rony" class="btn-play">Play</button>
+      <label><input type="checkbox" data-id="rony" class="loop" checked> Loop</label>
+    </div>
+    <input type="range" id="slider_rony" min="0" max="100" step="0.1" value="0">
+    <div class="small">Key: E</div>
+  </div>
+
+  <div class="track" id="t_voice3">
+    <h3>Voice3 (tries _voice3.mp3 then voice3.mp3)</h3>
+    <audio id="voice3" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="voice3" class="btn-play">Play</button>
+      <label><input type="checkbox" data-id="voice3" class="loop" checked> Loop</label>
+    </div>
+    <input type="range" id="slider_voice3" min="0" max="100" step="0.1" value="0">
+    <div class="small">Key: R</div>
+  </div>
+
+  <div class="section-title">🔥 EFFECT</div>
+
+  <div class="track" id="t_scratch">
+    <h3>Scratch.mp3 (one-shot)</h3>
+    <audio id="scratch" preload="auto"></audio>
+    <div class="controls">
+      <button data-id="scratch" class="btn-scratch">Scratch</button>
+    </div>
+    <div class="small">Key: S</div>
+  </div>
+
+  <div class="master">
+    <h3>🎚 MASTER VOLUME</h3>
+    <input id="masterVol" type="range" min="0" max="1" step="0.01" value="1">
+    <div class="small">Space = stop all. ↑ / ↓ master volume</div>
+  </div>
 
 <script>
-function playTrack(id) {
-  const audio = document.getElementById(id);
-  audio.play();
-}
+/* FILENAMES from your screenshot */
+const FILES = {
+  sony: 'sony.mp3',
+  tony: 'tony.mp3',
+  cue: 'cue.mp3',
+  cue2: 'cue2.mp3',
+  ronald: 'ronald.mp3',
+  djpale: 'djpale.mp3',
+  rony: 'rony.mp3',
+  scratch: 'scratch.mp3',
+  // voice3 may be named with a leading underscore in your listing; try that first then fallback
+  voice3_candidates: ['_voice3.mp3','voice3.mp3']
+};
 
-function pauseTrack(id) {
-  const audio = document.getElementById(id);
-  audio.pause();
-}
+const TRACKS = ['sony','tony','cue','cue2','ronald','djpale','rony','voice3','scratch'];
+const master = document.getElementById('masterVol');
 
-function seekTrack(audioID, sliderID) {
-  const audio = document.getElementById(audioID);
-  const slider = document.getElementById(sliderID);
-  audio.currentTime = (slider.value / 100) * audio.duration;
-}
-
-// AUTO UPDATE SLIDER
-setInterval(() => {
-  const audio = document.getElementById("track1");
-  const slider = document.getElementById("seek1");
-  if (!isNaN(audio.duration)) {
-    slider.value = (audio.currentTime / audio.duration) * 100;
+/* load audio elements with the right srcs and fallback for voice3 */
+function setSrcSafe(id){
+  const el = document.getElementById(id);
+  if(id === 'voice3'){
+    // try candidates in order
+    const cand = FILES.voice3_candidates.slice();
+    function tryNext(){
+      if(cand.length===0){ console.warn('voice3 file not found'); return; }
+      const name = cand.shift();
+      el.src = name;
+      // if loading fails, try next candidate
+      el.onerror = ()=>{ console.warn('failed to load', name, 'trying next'); tryNext(); };
+      // once it can play, remove onerror
+      el.oncanplay = ()=>{ el.onerror = null; el.oncanplay = null; console.log('voice3 loaded', el.src); };
+    }
+    tryNext();
+  } else {
+    el.src = FILES[id];
   }
+  el.preload = 'auto';
+}
+TRACKS.forEach(id => setSrcSafe(id));
+
+/* small unlock on first user interaction to avoid autoplay block */
+function unlockAudioOnce(){
+  document.removeEventListener('click', unlockAudioOnce);
+  TRACKS.forEach(id=>{
+    const a = document.getElementById(id);
+    if(!a) return;
+    // try quick play->pause to unlock
+    a.play().then(()=>a.pause()).catch(()=>{/*ignore*/});
+  });
+}
+document.addEventListener('click', unlockAudioOnce, { once:true });
+
+/* Wire up controls */
+document.querySelectorAll('.btn-play').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    const id = btn.dataset.id;
+    togglePlay(id, btn);
+  });
+});
+document.querySelectorAll('.btn-scratch').forEach(b=>{
+  b.addEventListener('click', ()=> {
+    const a = document.getElementById('scratch');
+    try{ a.currentTime = 0; }catch(e){}
+    a.play().catch(()=>{});
+  });
+});
+document.querySelectorAll('.loop').forEach(ch=>{
+  ch.addEventListener('change', ()=> {
+    const id = ch.dataset.id;
+    document.getElementById(id).loop = ch.checked;
+  });
+});
+/* sliders: seeking */
+TRACKS.forEach(id=>{
+  const slider = document.getElementById('slider_'+id);
+  const audio = document.getElementById(id);
+  if(!slider || !audio) return;
+  let dragging = false;
+  slider.addEventListener('input', ()=> {
+    // show preview while dragging (no need)
+    if(dragging) return;
+  });
+  slider.addEventListener('mousedown', ()=> dragging = true);
+  slider.addEventListener('touchstart', ()=> dragging = true);
+  function finishSeek(){
+    if(!audio.duration || isNaN(audio.duration)) { dragging = false; return; }
+    audio.currentTime = (Number(slider.value)/100) * audio.duration;
+    dragging = false;
+  }
+  slider.addEventListener('change', finishSeek);
+  slider.addEventListener('mouseup', finishSeek);
+  slider.addEventListener('touchend', finishSeek);
+});
+
+/* toggle play helper updates button label too */
+function togglePlay(id, btn){
+  const a = document.getElementById(id);
+  if(!a) return;
+  if(a.paused){
+    a.play().catch(()=>{/* may be blocked until user interacts */});
+    if(btn) btn.textContent = 'Pause';
+  } else {
+    a.pause();
+    if(btn) btn.textContent = 'Play';
+  }
+}
+
+/* update master volume for all tracks */
+function updateVolume(){
+  const v = Number(master.value);
+  TRACKS.forEach(id=>{
+    const a = document.getElementById(id);
+    if(a) a.volume = v;
+  });
+}
+master.addEventListener('input', updateVolume);
+
+/* periodic slider update */
+setInterval(()=>{
+  TRACKS.forEach(id=>{
+    const a = document.getElementById(id);
+    const s = document.getElementById('slider_'+id);
+    if(!a || !s) return;
+    if(a.duration && !isNaN(a.duration)){
+      // only update slider when user not dragging (we don't track dragging globally, but ok)
+      s.value = (a.currentTime / a.duration) * 100;
+    }
+  });
 }, 200);
 
-</script>
+/* Keyboard shortcuts */
+document.addEventListener('keydown', (e)=>{
+  const k = e.key.toLowerCase();
+  if(['1','2','3','4'].includes(k)){
+    const map = {'1':'sony','2':'tony','3':'cue','4':'cue2'};
+    togglePlay(map[k], document.querySelector(`button[data-id="${map[k]}"]`));
+    e.preventDefault();
+  }
+  if(['q','w','e','r'].includes(k)){
+    const map = {'q':'ronald','w':'djpale','e':'rony','r':'voice3'};
+    togglePlay(map[k], document.querySelector(`button[data-id="${map[k]}"]`));
+    e.preventDefault();
+  }
+  if(k==='s'){ // scratch one-shot
+    const a = document.getElementById('scratch');
+    try{ a.currentTime = 0; }catch(e){}
+    a.play().catch(()=>{});
+    e.preventDefault();
+  }
+  if(k===' '){ // space stops all
+    TRACKS.forEach(id=>{ const a=document.getElementById(id); if(a) a.pause(); });
+    // reset play buttons text
+    document.querySelectorAll('.btn-play').forEach(b=>b.textContent='Play');
+    e.preventDefault();
+  }
+  if(k==='arrowup'){
+    master.value = Math.min(1, Number(master.value) + 0.05);
+    updateVolume();
+    e.preventDefault();
+  }
+  if(k==='arrowdown'){
+    master.value = Math.max(0, Number(master.value) - 0.05);
+    updateVolume();
+    e.preventDefault();
+  }
+});
 
+/* initial volume sync */
+updateVolume();
+</script>
 </body>
 </html>
